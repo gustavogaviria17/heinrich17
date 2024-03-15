@@ -1,28 +1,48 @@
-name: Deploy to GitHub Pages
+name: Deploy
 
 on:
   push:
     branches:
-      - main  # Здесь можно указать другую ветку, если нужно
+      - main
 
 jobs:
-  deploy:
+  build:
+    name: Build
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout repo
         uses: actions/checkout@v2
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v2
+      - name: Setup Node
+        uses: actions/setup-node@v1
         with:
-          node-version: '14'
+          node-version: 16
 
       - name: Install dependencies
         run: yarn
 
-      - name: Build
-        run: yarn build  # Здесь указывается команда для сборки проекта (например, npm run build)
+      - name: Build project
+        run: yarn build
+
+      - name: Upload production-ready build files
+        uses: actions/upload-artifact@v2
+        with:
+          name: production-files
+          path: ./dist
+
+  deploy:
+    name: Deploy
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: production-files
+          path: ./dist
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
