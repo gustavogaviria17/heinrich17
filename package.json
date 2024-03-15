@@ -9,7 +9,7 @@
     "start": "dotenv -e ./.env/.env.development vite --mode development --envDir ./.env",
     "start:stage": "dotenv -e ./.env/.env.stage vite --mode stage --envDir ./.env",
     "start:server": "cd server && yarn start",
-    "build": "CI=false && tsc && dotenv -e ./.env/.env.production vite build --envDir ./.env",
+    "build": "tsc && dotenv -e ./.env/.env.production vite build --envDir ./.env",
     "lint": "eslint -c .eslintrc.js src/**/* --fix --no-error-on-unmatched-pattern",
     "prettier:base": "./node_modules/.bin/prettier --config ./prettier.config.js",
     "prettier:check": "npm run prettier:base -- --list-different \"./src/**/*.{d.ts,ts,tsx}\"",
