@@ -1,9 +1,9 @@
 # dependencies
-./node_modules
-./node
-./yarn
-./lint.yml
-./server/node_modules
+node_modules
+node
+yarn
+lint.yml
+server/node_modules
 /.pnp
 .pnp.js
 .env
@@ -12,8 +12,8 @@
 /coverage
 
 # production
-./build
-./dist
+build
+dist
 
 # IDEA config files
 .idea/
