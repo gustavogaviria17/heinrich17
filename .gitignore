@@ -13,7 +13,6 @@ server/node_modules
 
 # production
 build
-dist
 
 # IDEA config files
 .idea/
