@@ -1,0 +1,13 @@
+{
+  "navigation": {
+    "list": {
+      "news": "Nachrichten",
+      "signals": "Signale",
+      "favorite": "Favoriten",
+      "subscribes": "Abonnements",
+      "faq": "FAQ",
+      "aboutus": "Über uns",
+      "profile": "Profil"
+    }
+  }
+}

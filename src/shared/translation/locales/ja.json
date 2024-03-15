@@ -1,0 +1,13 @@
+{
+  "navigation": {
+    "list": {
+      "news": "ニュース",
+      "signals": "シグナル",
+      "favorite": "お気に入り",
+      "subscribes": "サブスクリプション",
+      "faq": "よくある質問",
+      "aboutus": "会社概要",
+      "profile": "プロフィール"
+    }
+  }
+}

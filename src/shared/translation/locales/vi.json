@@ -1,0 +1,13 @@
+{
+  "navigation": {
+    "list": {
+      "news": "Tin tức",
+      "signals": "Tín hiệu",
+      "favorite": "Yêu thích",
+      "subscribes": "Theo dõi",
+      "faq": "Câu hỏi thường gặp",
+      "aboutus": "Về chúng tôi",
+      "profile": "Hồ sơ"
+    }
+  }
+}

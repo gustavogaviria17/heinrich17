@@ -1,0 +1,13 @@
+{
+  "navigation": {
+    "list": {
+      "news": "新闻",
+      "signals": "信号",
+      "favorite": "收藏",
+      "subscribes": "订阅",
+      "faq": "常见问题",
+      "aboutus": "关于我们",
+      "profile": "个人资料"
+    }
+  }
+}

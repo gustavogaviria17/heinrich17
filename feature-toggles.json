@@ -1,0 +1,13 @@
+{
+  "multiSelectInGlobalSearch": false,
+  "contextMenuOnTable": false,
+  "restorePasswordInSidePanel": true,
+  "shouldFillNewPasswordAfterAuth": true,
+  "tableContextMenu": true,
+  "passwordSettings": true,
+  "otherPasswordParameters": true,
+  "unlockUser": true,
+  "userAccidentalDeleteProtect": true,
+  "mvp": false,
+  "delegationFull": false
+}

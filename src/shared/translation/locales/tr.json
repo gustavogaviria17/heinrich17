@@ -1,0 +1,13 @@
+{
+  "navigation": {
+    "list": {
+      "news": "Haberler",
+      "signals": "Sinyaller",
+      "favorite": "Favoriler",
+      "subscribes": "Abonelikler",
+      "faq": "SSS",
+      "aboutus": "Hakkımızda",
+      "profile": "Profil"
+    }
+  }
+}

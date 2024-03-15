@@ -1,0 +1,6 @@
+*.css
+*.svg
+package.json
+*.config.js
+server/*
+src/shared/media
