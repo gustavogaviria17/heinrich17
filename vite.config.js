@@ -29,7 +29,7 @@ export default defineConfig({
       },
     },
   },
-  base: '',
+  base: /heinrich17/,
   resolve: {
     alias: getAlias(),
   },
