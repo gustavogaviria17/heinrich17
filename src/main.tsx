@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 import { createRoot } from 'react-dom/client';
-import { HashRouter } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import { Interceptors } from '@app/api/axios';
 import GlobalStyle from '@app/GlobalStyle';
 import AppRouter from '@app/router';
@@ -30,9 +30,9 @@ const App = (): ReactElement => {
         <GlobalStyle />
         <Interceptors>
           <FeatureToggleProvider>
-            <HashRouter>
+            <BrowserRouter>
               <AppRouter />
-            </HashRouter>
+            </BrowserRouter>
           </FeatureToggleProvider>
         </Interceptors>
       </ThemeProvider>
