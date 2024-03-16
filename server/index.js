@@ -21,7 +21,10 @@ app.get('/', async (req, res) => {
 
 const start = async () => {
   try {
-    await mongoose.connect(process.env.MONGO_URL);
+    await mongoose.connect(
+      process.env.MONGO_URL ||
+        'mongodb+srv://groyergAdmin:rhBDcItK3Ox4NHHl@clustergroyerg.to1klkw.mongodb.net/?retryWrites=true&w=majority&appName=ClusterGroyerg',
+    );
     app.listen(PORT, () => console.log(`Server started on ${PORT} port`));
   } catch (e) {
     console.log(e);
