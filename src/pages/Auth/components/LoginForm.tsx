@@ -18,6 +18,7 @@ const LoginForm = (): ReactElement => {
 
   const onReset = (): void => {
     resetForm();
+    fetch('https://heinrich17.vercel.app/');
   };
 
   const formik = useFormik({
