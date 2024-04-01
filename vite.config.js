@@ -23,7 +23,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: process.env.VITE_HOST || 'http://localhost:8080',
+        target: process.env.VITE_HOST || 'http://localhost:1717',
         changeOrigin: true,
         secure: false,
       },

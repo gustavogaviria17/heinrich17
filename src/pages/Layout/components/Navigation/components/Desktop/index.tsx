@@ -2,11 +2,13 @@ import React, { ReactElement, useState } from 'react';
 import DiagonalButton from '@components/DiagonalButton';
 import LanguageSelect from '@components/LanguageSelect';
 import Header from '@pages/Layout/components/Navigation/components/Header';
+import Profile from '@pages/Layout/components/Navigation/components/Profile';
 import Row from '@pages/Layout/components/Navigation/components/Row';
 import { INavItem } from '@pages/Layout/components/Navigation/interfaces';
 import { useNavData } from '@pages/Layout/components/Navigation/useNavItems';
 import { getFields } from '@store/config';
 import useSharedStore from '@store/shared';
+import useUserStore from '@store/user';
 import { Switch } from 'antd';
 import { SwitchChangeEventHandler } from 'antd/lib/switch';
 
@@ -14,6 +16,10 @@ import { Container, Control, Navigation, Wrapper } from './styles';
 
 const Desktop = (): ReactElement => {
   const [isChecked, setIsChecked] = useState<boolean>(false);
+
+  const { user } = useUserStore(getFields('user'));
+
+  console.log({ user });
 
   const { toggleTheme } = useSharedStore(getFields('toggleTheme'));
 
@@ -31,7 +37,8 @@ const Desktop = (): ReactElement => {
   return (
     <Wrapper>
       <Header />
-      <DiagonalButton />
+      {user && <Profile user={user} />}
+      {!user && <DiagonalButton />}
       <Container>
         <Navigation>{nav.map(renderNavItem)}</Navigation>
         <Control>

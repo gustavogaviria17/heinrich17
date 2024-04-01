@@ -1,33 +1,30 @@
-import React, { ReactElement, useEffect, useState } from 'react';
+import React, { ReactElement, useMemo } from 'react';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
+import API from '@app/api';
 import Layout from '@pages/Layout';
 
-// import { checkAuth } from './checkAuth';
 import { ICustomOutlet } from './interfaces';
 
 const CustomOutlet = ({ isWithBasicLayout, isPrivate }: ICustomOutlet): ReactElement | null => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  // eslint-disable-next-line lint-local/no-inline-callbacks
+  const isAccess = useMemo(async (): Promise<boolean> => {
+    if (!isPrivate) return true;
 
-  const checkAccess = async (): Promise<void> => {
-    const isAuth = true;
-    //  TODO сделать авторизацию
-    // const isAuth = await checkAuth();
+    const token = localStorage.getItem('token');
 
-    !isAuth && navigate('/ui/login');
+    if (token === null) {
+      navigate('/login');
 
-    setIsAuthenticated(isAuth);
-  };
+      return false;
+    }
 
-  const onChangeRoute = (): void => {
-    isPrivate && checkAccess();
-  };
+    const res = await API.auth.validate(token);
 
-  useEffect(onChangeRoute, [pathname]);
-
-  const isAccess = isPrivate ? isAuthenticated : true;
+    return 'isValid' in res ? res?.isValid : false;
+  }, [pathname]);
 
   if (!isAccess) return null;
 

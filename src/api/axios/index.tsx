@@ -1,5 +1,11 @@
 import { ReactElement, useEffect } from 'react';
-import axios, { AxiosError, AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
+import API from '@app/api';
+import axios, {
+  AxiosError,
+  AxiosRequestConfig,
+  AxiosResponse,
+  InternalAxiosRequestConfig,
+} from 'axios';
 
 import { AVAILABLE_STATUS_NUMBERS, BASE_API_URL, LOG_ON_DEV } from './constants';
 import { IError, IInterceptors } from './interfaces';
@@ -9,7 +15,7 @@ type TUnmount = () => void;
 const [minStatusNumber, maxStatusNumber] = AVAILABLE_STATUS_NUMBERS;
 
 const axiosInstance = axios.create({
-  baseURL: BASE_API_URL,
+  baseURL: `${BASE_API_URL}/api`,
   headers: {
     'Content-Type': 'application/json',
   },
@@ -24,6 +30,13 @@ const Interceptors = ({ children }: IInterceptors): ReactElement => {
 
     LOG_ON_DEV(`🚀[API] ${method?.toUpperCase()} ${url} | Request`);
 
+    const token = localStorage.getItem('token');
+
+    if (!headers.Authorization && token) {
+      // @ts-ignore
+      return { ...config, headers: { ...headers, Authorization: `Bearer ${token}` } };
+    }
+
     return { ...config, headers };
   };
 
@@ -31,6 +44,11 @@ const Interceptors = ({ children }: IInterceptors): ReactElement => {
 
   const onSuccessResponse = (response: AxiosResponse): AxiosResponse => {
     const { data } = response;
+
+    if (response.config.url === '/auth/signin') {
+      localStorage.setItem('token', data.accessToken);
+      axiosInstance.defaults.headers.common.Authorization = `Bearer ${data.accessToken}`;
+    }
 
     return data || response;
   };
@@ -46,15 +64,31 @@ const Interceptors = ({ children }: IInterceptors): ReactElement => {
     const { method, url } = config as AxiosRequestConfig;
     const { status, data } = (response as AxiosResponse) ?? {};
     const defaultMessage = 'Oops, something went wrong';
-    const details = data?.details || undefined;
-    const errorMessage = data?.error || message || defaultMessage;
-    const code = error?.response?.data?.code || undefined;
+    const errorMessage = data?.message || defaultMessage;
 
     LOG_ON_DEV(`🚨 [API] ${method?.toUpperCase()} ${url} | Error ${status} ${message}`);
 
     switch (status) {
       case 401: {
-        // "No auth"
+        if (url === '/auth/refresh') {
+          // TODO  нужно отдать ошибку что обновить токен не вышло и типа показать просто статус попробуйте позже
+          return { code: status.toString(), error: errorMessage };
+        }
+
+        const res = await API.auth.refresh();
+
+        if ('accessToken' in res && res?.accessToken) {
+          const updatedConfig = {
+            ...config,
+            headers: {
+              ...config?.headers,
+              Authorization: `Bearer ${res?.accessToken}`,
+            },
+          };
+
+          return axiosInstance.request(updatedConfig);
+        }
+
         break;
       }
       case 403: {
@@ -75,12 +109,18 @@ const Interceptors = ({ children }: IInterceptors): ReactElement => {
       }
     }
 
-    return { code, error: details || errorMessage };
+    return { code: status.toString(), error: errorMessage };
   };
 
   const onInit = (): TUnmount => {
-    const requestInterceptor = axiosInstance.interceptors.request.use(onSuccessRequest, onErrorRequest);
-    const responseInterceptor = axiosInstance.interceptors.response.use(onSuccessResponse, onErrorResponse);
+    const requestInterceptor = axiosInstance.interceptors.request.use(
+      onSuccessRequest,
+      onErrorRequest,
+    );
+    const responseInterceptor = axiosInstance.interceptors.response.use(
+      onSuccessResponse,
+      onErrorResponse,
+    );
 
     return (): void => {
       axiosInstance.interceptors.request.eject(requestInterceptor);

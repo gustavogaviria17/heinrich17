@@ -11,41 +11,44 @@ export const renderRoute = (
     path: incomingPath,
     component: Component,
     fallback = <div />,
-    isWithPrefix = true,
     isWithBasicLayout = true,
     isPrivate = true,
   }: IRoute,
   index: number,
 ): ReactElement | null => {
-  const render = (pathItem: string): ReactElement => {
-    const path = isWithPrefix ? `/ui${pathItem}` : pathItem;
-
-    return (
-      <Route key={path} element={<CustomOutlet isPrivate={isPrivate} isWithBasicLayout={isWithBasicLayout} />} path="/">
-        <Route
-          /* так сделано нарочно, иначе конфликт исправлений между prettier и eslint */
-          /* eslint-disable-next-line react/no-children-prop */
-          element={<Suspense children={<Component />} fallback={fallback} />}
-          index={path === '/'}
-          path={path}
-        />
-      </Route>
-    );
-  };
-
-  if (Array.isArray(incomingPath)) return <Fragment key={index}>{incomingPath.map(render)}</Fragment>;
-
-  const path = isWithPrefix ? `/ui${incomingPath}` : incomingPath;
-
-  return (
-    <Route key={path} element={<CustomOutlet isPrivate={isPrivate} isWithBasicLayout={isWithBasicLayout} />} path="/">
+  const render = (pathItem: string): ReactElement => (
+    <Route
+      key={pathItem}
+      element={<CustomOutlet isPrivate={isPrivate} isWithBasicLayout={isWithBasicLayout} />}
+      path="/"
+    >
       <Route
-        key={path}
         /* так сделано нарочно, иначе конфликт исправлений между prettier и eslint */
         /* eslint-disable-next-line react/no-children-prop */
         element={<Suspense children={<Component />} fallback={fallback} />}
-        index={path === '/'}
-        path={path}
+        index={pathItem === '/'}
+        path={pathItem}
+      />
+    </Route>
+  );
+
+  if (Array.isArray(incomingPath)) {
+    return <Fragment key={index}>{incomingPath.map(render)}</Fragment>;
+  }
+
+  return (
+    <Route
+      key={incomingPath}
+      element={<CustomOutlet isPrivate={isPrivate} isWithBasicLayout={isWithBasicLayout} />}
+      path="/"
+    >
+      <Route
+        key={incomingPath}
+        /* так сделано нарочно, иначе конфликт исправлений между prettier и eslint */
+        /* eslint-disable-next-line react/no-children-prop */
+        element={<Suspense children={<Component />} fallback={fallback} />}
+        index={incomingPath === '/'}
+        path={incomingPath}
       />
     </Route>
   );
