@@ -1,5 +1,5 @@
-import { useEffect } from 'react';
-import { useThrottle } from '@shared/hooks/useThrottle';
+import { useEffect, useState } from 'react';
+import { addDelay } from '@shared/helpers';
 import { getFields, IDefaultStore } from '@store/config';
 import { IStatus } from '@store/interfaces';
 import useStatusesStore from '@store/statuses';
@@ -10,18 +10,25 @@ export const useStoreStatus = <T extends IDefaultStore>(storeGetter: T): T => {
   const { setStatus, statuses } = useStatusesStore(getFields(['setStatus', 'statuses']));
 
   const updateStatuses = (): void => {
-    (statuses?.isError || statuses?.isSuccess) && throttled();
+    const isStatusShown = localStorage.getItem('statusShown');
+    console.log({ isStatusShown, statuses });
+    if ((statuses?.isError || statuses?.isSuccess) && isStatusShown === null) {
+      openNotification();
+    }
   };
 
-  const openNotification = (): void => {
+  const openNotification = async (): Promise<void> => {
+    localStorage.setItem('statusShown', 'true');
+
+    await addDelay(500);
+
     notification.open({
       message: statuses?.message || 'Success',
       type: getStatus(statuses),
     });
-  };
 
-  // TODO пока не пашет, нотификации затраиваются
-  const throttled = useThrottle(openNotification, 3000);
+    localStorage.removeItem('statusShown');
+  };
 
   const getStatus = (status: IStatus): 'success' | 'error' | 'info' | 'warning' => {
     if (status?.isError) return 'error';
@@ -29,16 +36,9 @@ export const useStoreStatus = <T extends IDefaultStore>(storeGetter: T): T => {
 
     return 'info';
   };
-  //
-  // const getDescription = (status: IStatus): string => {
-  //   if (status?.isError) return 'Error!';
-  //   if (status?.isSuccess) return 'Excellent!';
-  //
-  //   return 'Attention';
-  // };
 
   useEffect(updateStatuses, [statuses]);
-  // eslint-disable-next-line lint-local/no-inline-callbacks
+
   useEffect(() => {
     setStatus(incomingStatuses);
   }, [incomingStatuses]);

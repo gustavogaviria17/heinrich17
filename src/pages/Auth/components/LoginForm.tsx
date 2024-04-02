@@ -82,7 +82,7 @@ const LoginForm = (): ReactElement => {
         <Button disabled={isDisabled} htmlType="submit" size="large" type="primary">
           {statuses?.isLoading ? <Spinner /> : t('auth.login.submit')}
         </Button>
-        <Button htmlType="reset" onClick={onReset} size="large">
+        <Button disabled={statuses?.isLoading} htmlType="reset" onClick={onReset} size="large">
           {t('auth.login.clear')}
         </Button>
       </Control>

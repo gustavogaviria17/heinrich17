@@ -80,6 +80,10 @@ const Interceptors = ({ children }: IInterceptors): ReactElement => {
         if ('accessToken' in res && res?.accessToken) {
           const updatedConfig = {
             ...config,
+            data:
+              config?.url === '/auth/validate'
+                ? JSON.stringify({ token: res?.accessToken })
+                : config?.data,
             headers: {
               ...config?.headers,
               Authorization: `Bearer ${res?.accessToken}`,

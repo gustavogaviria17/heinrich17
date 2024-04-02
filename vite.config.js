@@ -23,13 +23,13 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: process.env.VITE_HOST || 'http://localhost:1717',
+        target: process.env.VITE_HOST,
         changeOrigin: true,
         secure: false,
       },
     },
   },
-  base: /heinrich17/,
+  base: process.env.VITE_BASE_PATH,
   resolve: {
     alias: getAlias(),
   },

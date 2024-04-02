@@ -11,12 +11,13 @@ import { Container } from './styles';
 
 const LanguageSelect = (): ReactElement => {
   const { i18n } = useTranslation();
-  const { setLanguage, language, languages } = useSharedStore(getFields(['setLanguage', 'language', 'languages']));
+  const { setLanguage, language, languages } = useSharedStore(
+    getFields(['setLanguage', 'language', 'languages']),
+  );
 
   const handleCLick = ({ key }: any): void => {
     setLanguage(key);
     i18n.changeLanguage(key);
-    console.log({ key });
   };
 
   const toDropdownOptions = ({ label, key, alt, icon }: ILanguage): ItemType => ({

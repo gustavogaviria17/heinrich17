@@ -16,13 +16,8 @@ import { Container, Control, Navigation, Wrapper } from './styles';
 
 const Desktop = (): ReactElement => {
   const [isChecked, setIsChecked] = useState<boolean>(false);
-
   const { user } = useUserStore(getFields('user'));
-
-  console.log({ user });
-
   const { toggleTheme } = useSharedStore(getFields('toggleTheme'));
-
   const nav = useNavData();
 
   const renderNavItem = ({ title, id, icon, url }: INavItem): ReactElement => (

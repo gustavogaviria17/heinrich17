@@ -1,5 +1,6 @@
 const userService = require('../service/user-service');
 const tokenService = require('../service/token-service');
+const ApiError = require('../exceptions/api-error');
 
 class UserController {
   async registration(req, res, next) {
@@ -66,9 +67,15 @@ class UserController {
   async validate(req, res, next) {
     try {
       const { token } = req.body;
-      const isValid = await tokenService.validateAccessToken(token);
+      const tokenResponse = await tokenService.validateAccessToken(token);
 
-      return res.json({ isValid: isValid === null ? false : !!isValid.id });
+      const isValid = tokenResponse !== null;
+
+      if (!isValid) {
+        return next(ApiError.UnauthorizedError());
+      }
+
+      return res.json({ isValid });
     } catch (e) {
       next(e);
     }

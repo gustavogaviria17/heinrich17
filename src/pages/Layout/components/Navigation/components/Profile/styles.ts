@@ -27,3 +27,7 @@ export const Name = styled.p<any>`
   margin: 0;
   padding: 0;
 `;
+
+export const Button = styled.div`
+  margin-left: auto;
+`;

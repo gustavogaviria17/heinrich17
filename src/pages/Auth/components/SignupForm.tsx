@@ -228,7 +228,7 @@ const SignupForm = (): ReactElement => {
         <Button disabled={isDisabled} htmlType="submit" size="large" type="primary">
           {statuses?.isLoading ? <Spinner /> : t('auth.registration.submit')}
         </Button>
-        <Button htmlType="reset" onClick={onReset} size="large">
+        <Button disabled={statuses?.isLoading} htmlType="reset" onClick={onReset} size="large">
           {t('auth.registration.clear')}
         </Button>
       </Control>

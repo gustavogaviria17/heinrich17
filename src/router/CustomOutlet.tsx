@@ -1,4 +1,4 @@
-import React, { ReactElement, useMemo } from 'react';
+import React, { ReactElement, useEffect, useState } from 'react';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import API from '@app/api';
 import Layout from '@pages/Layout';
@@ -8,25 +8,38 @@ import { ICustomOutlet } from './interfaces';
 const CustomOutlet = ({ isWithBasicLayout, isPrivate }: ICustomOutlet): ReactElement | null => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
+  const [isAccess, setIsAccess] = useState<boolean>(false);
 
-  // eslint-disable-next-line lint-local/no-inline-callbacks
-  const isAccess = useMemo(async (): Promise<boolean> => {
-    if (!isPrivate) return true;
+  const onCheck = async (): Promise<void> => {
+    if (!isPrivate) {
+      setIsAccess(true);
+
+      return;
+    }
 
     const token = localStorage.getItem('token');
 
     if (token === null) {
-      navigate('/login');
+      setIsAccess(false);
 
-      return false;
+      return;
     }
 
     const res = await API.auth.validate(token);
 
-    return 'isValid' in res ? res?.isValid : false;
+    setIsAccess('isValid' in res ? res?.isValid : false);
+  };
+
+  // eslint-disable-next-line lint-local/no-inline-callbacks
+  useEffect((): void => {
+    onCheck();
   }, [pathname]);
 
-  if (!isAccess) return null;
+  if (!isAccess) {
+    navigate('/login');
+
+    return null;
+  }
 
   if (isWithBasicLayout) {
     return <Layout />;

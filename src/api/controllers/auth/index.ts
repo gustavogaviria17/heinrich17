@@ -18,6 +18,10 @@ class AuthAPI {
     return axiosInstance.post(`${this.authURL}/signup`, data);
   }
 
+  async logout(): Promise<IAuthResponse | IError> {
+    return axiosInstance.post(`${this.authURL}/logout`);
+  }
+
   async refresh(): Promise<IAuthResponse | IError> {
     return axiosInstance.get(`${this.authURL}/refresh`);
   }
