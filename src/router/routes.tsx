@@ -10,6 +10,12 @@ export const ROUTES: IRoute[] = [
     path: ['/news', '/subscribes', '/signals', '/favorite', '/faq', '/about'],
   },
   {
+    component: lazy(() => import('@pages/NewsDetail')),
+    fallback: <div />,
+    isWithPrefix: false,
+    path: ['/news/*'],
+  },
+  {
     component: lazy(() => import('@pages/Auth')),
     fallback: <div />,
     isWithBasicLayout: false,
