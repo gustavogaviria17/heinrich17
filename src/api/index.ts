@@ -1,10 +1,10 @@
-import EntriesAPI from './controllers/entries';
+import AuthAPI from './controllers/auth';
 
 class API {
-  entries: EntriesAPI;
+  auth: AuthAPI;
 
   constructor() {
-    this.entries = new EntriesAPI();
+    this.auth = new AuthAPI();
   }
 }
 

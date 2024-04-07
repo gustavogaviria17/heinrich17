@@ -32,6 +32,12 @@
     }
   },
   "navigation": {
+    "profile": {
+      "dropdown": {
+        "settings": "Настройки",
+        "logout": "Выйти"
+      }
+    },
     "list": {
       "news": "Новости",
       "signals": "Сигналы",

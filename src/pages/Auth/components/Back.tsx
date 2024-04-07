@@ -45,7 +45,6 @@ const Back = (): ReactElement => {
   const goBack = (): void => {
     if (!isGoBackPending) {
       setIsGoBackPending(true);
-      console.log('sss');
       navigate(-1);
 
       // eslint-disable-next-line lint-local/no-inline-callbacks

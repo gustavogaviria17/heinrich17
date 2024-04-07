@@ -3,14 +3,10 @@ import { ReactComponent as Logo } from '@shared/media/logo.svg';
 
 import { Wrapper } from './styles';
 
-const Header = (): ReactElement => {
-  console.log('Header');
-
-  return (
-    <Wrapper>
-      <Logo />
-    </Wrapper>
-  );
-};
+const Header = (): ReactElement => (
+  <Wrapper>
+    <Logo />
+  </Wrapper>
+);
 
 export default Header;

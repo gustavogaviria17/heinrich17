@@ -3,7 +3,14 @@ import { create, StoreApi, UseBoundStore } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
 
-import { IStatus, TPartialStore, TSetStore, TSetStoreCustom, TSetter, TToCacheCallback } from './interfaces';
+import {
+  IStatus,
+  TPartialStore,
+  TSetStore,
+  TSetStoreCustom,
+  TSetter,
+  TToCacheCallback,
+} from './interfaces';
 
 export interface ISetterConfig<T> {
   effect: TSetStore<IStatus>;
@@ -17,20 +24,35 @@ export interface IDefaultStore {
 }
 
 export const getFields =
-  <T>(fields: string | string[]): ((state: T) => T) =>
+  <T extends IDefaultStore>(fields: string | string[]): ((state: T) => T) =>
   (state: T): T => {
     if (!Array.isArray(fields)) {
-      return Object.create({ [fields]: state[fields as keyof T] });
+      return Object.create({ [fields]: state[fields as keyof T], statuses: state.statuses });
     }
 
-    return fields.reduce((acc, field: string) => ({ ...acc, [field]: state[field as keyof T] }), {} as T);
+    return fields.reduce(
+      (acc, field: string) => ({
+        ...acc,
+        [field]: state[field as keyof T],
+        statuses: state.statuses,
+      }),
+      {} as T,
+    );
   };
 
-export const createStore = <T extends IDefaultStore>(setter: TSetter<T>, storeName: string): UseBoundStore<any> =>
+export const createStore = <T extends IDefaultStore>(
+  setter: TSetter<T>,
+  storeName: string,
+): UseBoundStore<any> =>
   create(
     devtools(
       immer((set: any, get: () => T) =>
-        setter({ effect: setEffect(set, storeName), get, set: updateStore(set, storeName), storeName }),
+        setter({
+          effect: setEffect(set, storeName),
+          get,
+          set: updateStore(set, storeName),
+          storeName,
+        }),
       ),
       { name: storeName },
     ),
@@ -45,7 +67,12 @@ export const createStoreWithCache = <T extends IDefaultStore>(
     persist(
       devtools(
         immer((set: any, get: () => T) =>
-          setter({ effect: setEffect(set, storeName), get, set: updateStore(set, storeName), storeName }),
+          setter({
+            effect: setEffect(set, storeName),
+            get,
+            set: updateStore(set, storeName),
+            storeName,
+          }),
         ),
         { name: storeName },
       ),

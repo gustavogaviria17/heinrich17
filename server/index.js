@@ -3,21 +3,27 @@ const express = require('express');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
+const router = require('./router');
+const errorMiddleware = require('./middlewares/error-middleware');
 
 const PORT = process.env.PORT || 5000;
 const app = express();
 
 app.use(express.json());
+app.use(cookieParser());
 app.use(
   cors({
-    origin: ['https://gustavogaviria17.github.io', 'http://localhost:5175'], // Разрешенные источники
+    origin: [
+      'https://gustavogaviria17.github.io',
+      'http://localhost:5175',
+      'http://localhost:5173',
+      'http://localhost:5174',
+    ], // Разрешенные источники
     credentials: true, // Включаем передачу куки
   }),
 );
-
-app.get('/', async (req, res) => {
-  res.send('Hello world');
-});
+app.use('/api', router);
+app.use(errorMiddleware);
 
 const start = async () => {
   try {
