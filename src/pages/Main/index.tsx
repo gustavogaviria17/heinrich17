@@ -1,11 +1,5 @@
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 
-import { Wrapper } from './styles';
-
-const Main = (): ReactElement => {
-  console.log('test');
-
-  return <Wrapper>Lorem</Wrapper>;
-};
+const Main = (): ReactElement => <div>main page</div>;
 
 export default Main;

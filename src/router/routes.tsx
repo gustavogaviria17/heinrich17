@@ -8,13 +8,26 @@ export const ROUTES: IRoute[] = [
     fallback: <div />,
     isPrivate: false,
     isWithPrefix: false,
-    path: ['/news', '/faq', '/about'],
+    path: ['/faq', '/about'],
+  },
+  {
+    component: lazy(() => import('@pages/Main/components/News')),
+    fallback: <div />,
+    isPrivate: false,
+    isWithPrefix: false,
+    path: ['/news'],
   },
   {
     component: lazy(() => import('@pages/Main')),
     fallback: <div />,
     isWithPrefix: false,
     path: ['/subscribes', '/signals', '/favorite'],
+  },
+  {
+    component: lazy(() => import('@pages/NewsDetail')),
+    fallback: <div />,
+    isWithPrefix: false,
+    path: ['/news/*'],
   },
   {
     component: lazy(() => import('@pages/Auth')),
