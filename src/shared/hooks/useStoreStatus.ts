@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { addDelay } from '@shared/helpers';
 import { getFields, IDefaultStore } from '@store/config';
 import { IStatus } from '@store/interfaces';
