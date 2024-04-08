@@ -1,16 +1,5 @@
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 
-import News from './components/News';
-import { Wrapper } from './styles';
-
-const Main = (): ReactElement => {
-  console.log('test');
-
-  return (
-    <Wrapper>
-      <News />
-    </Wrapper>
-  );
-};
+const Main = (): ReactElement => <div>main page</div>;
 
 export default Main;

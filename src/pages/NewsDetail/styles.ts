@@ -4,14 +4,16 @@ import { styled } from 'styled-components';
 
 export const NewsPageContainer = styled.div`
   height: calc(100% - 165px);
+  margin: 0 auto;
+  padding-bottom: 80px;
   position: relative;
-  width: 100%;
+  width: 80%;
 
   @media ${BREAKPOINTS.fromTablet} {
     height: 100%;
     padding: 20px;
-    margin-left: 320px;
-    width: calc(100% - 320px);
+    margin-left: calc(320px + 10%);
+    width: calc(80% - 320px);
   }
 `;
 

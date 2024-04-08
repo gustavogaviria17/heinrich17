@@ -35,11 +35,11 @@ const CustomOutlet = ({ isWithBasicLayout, isPrivate }: ICustomOutlet): ReactEle
     onCheck();
   }, [pathname]);
 
-  if (!isAccess) {
-    navigate('/login');
+  // if (!isAccess) {
+  //   navigate('/login');
 
-    return null;
-  }
+  //   return null;
+  // }
 
   if (isWithBasicLayout) {
     return <Layout />;

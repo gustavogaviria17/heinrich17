@@ -1,5 +1,11 @@
+import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
+import { getColor } from '@shared/helpers';
 import { Button, Card, Image } from 'antd';
 import { styled } from 'styled-components';
+
+export const EyeIcon = styled(RemoveRedEyeIcon)<any>`
+  color: gray;
+`;
 
 export const StyledCard = styled(Card)`
   border-radius: 8px;
@@ -43,13 +49,25 @@ export const LikeCounter = styled.div`
   margin-left: 6px;
 `;
 
-export const StyledButton = styled(Button)`
+export const StyledButton = styled(Button)<any>`
   align-items: center;
   border: none;
   border-radius: 12px;
   box-shadow: none;
   display: flex;
-  margin-right: 12px;
+  margin-right: 18px !important;
+  padding: 0;
+  transition: none;
+
+  svg {
+    color: gray;
+    width: 18px;
+    height: 18px;
+  }
+
+  &:hover svg {
+    color: ${getColor('accentHover')};
+  }
 `;
 
 export const ViewsContainer = styled.div`

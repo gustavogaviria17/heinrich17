@@ -1,12 +1,11 @@
 import React, { ReactElement } from 'react';
 import { Link } from 'react-router-dom';
-import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import ThumbDownAltIcon from '@mui/icons-material/ThumbDownAlt';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import { Typography } from 'antd';
 import Paragraph from 'antd/es/typography/Paragraph';
 
-import { ButtonWrapper, Footer, Header, HeaderLeft, HeaderMeta, LikeCounter, StyledButton, StyledCard, StyledImage, ViewsContainer, ViewsText } from './styles';
+import { ButtonWrapper, EyeIcon, Footer, Header, HeaderLeft, HeaderMeta, LikeCounter, StyledButton, StyledCard, StyledImage, ViewsContainer, ViewsText } from './styles';
 
 interface INewsCardProps {
     content: string;
@@ -37,13 +36,13 @@ const NewsCard = ({ imageUrl, source, publishDate, views, content, title, likes,
         </HeaderMeta>
       </HeaderLeft>
       <ViewsContainer>
-        <RemoveRedEyeIcon />
+        <EyeIcon />
         <ViewsText>{views}</ViewsText>
       </ViewsContainer>
     </Header>
     <StyledCard.Meta
       description={<Paragraph ellipsis={elipsisConfig}>{content}</Paragraph>}
-      title={<Link to="/news/123"><Typography.Title level={4} style={{ color: '#3366BB' }}>{title}</Typography.Title></Link>}
+      title={<Link to="/news/123"><Typography.Title level={4}>{title}</Typography.Title></Link>}
     />
     <Footer>
       <ButtonWrapper>
